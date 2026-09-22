@@ -21,12 +21,28 @@ export function LikeButton({
   onChanged,
 }: LikeButtonProps) {
   const router = useRouter();
-  // TODO: guardar pendência e mensagem de erro.
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState("");
+
   async function toggle() {
     if (pending || !canLike) {
       return;
     }
-    // TODO: confirmar a intenção de curtir ou remover e avisar o componente pai.
+    setPending(true);
+    setError("");
+    try {
+      const result = await changeLike(postId, !liked);
+      onChanged(result);
+      router.refresh();
+    } catch (changeError) {
+      setError(
+        changeError instanceof Error
+          ? changeError.message
+          : "Não foi possível atualizar a curtida. Tente novamente.",
+      );
+    } finally {
+      setPending(false);
+    }
   }
   return (
     <div className="flex items-center gap-3">
