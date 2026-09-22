@@ -72,12 +72,12 @@ Não compartilhe as URLs das portas 9000 e 9001 nem altere sua visibilidade: ela
    ```sh
    gh pr create \
      --repo gabrielcnegre/poliroid-aluno-2026 \
-   --base resolucao/main \
-   --head SEU-USUARIO:resolucao/feature-03-busca-grupo-01 \
+     --base resolucao/main \
+     --head SEU-USUARIO:resolucao/feature-03-busca-grupo-01 \
      --fill
    ```
 
-   Troque `SEU-USUARIO` pelo nome da conta que criou o fork e `resolucao/feature-03-busca-grupo-01` pelo nome da branch do grupo. O destino deve ser sempre `gabrielcnegre/poliroid-aluno-2026`, na branch `resolucao/main`; a `main` não recebe exercícios diretamente.
+   Troque `SEU-USUARIO` pelo seu nome de usuário no GitHub e `resolucao/feature-03-busca-grupo-01` pelo nome da branch do grupo. O destino deve ser sempre `gabrielcnegre/poliroid-aluno-2026`, na branch `resolucao/main`; a `main` não recebe exercícios diretamente.
 
    O Codespaces normalmente já fornece a autenticação necessária. Se o comando informar que você não está autenticado, execute `gh auth login` e siga as opções para entrar na sua conta do GitHub. Como alternativa, você pode executar `gh pr create --web` para abrir a criação do pull request no navegador.
 
@@ -114,10 +114,10 @@ Use esta opção apenas se o grupo preferir programar localmente. O projeto ser�
 
 ### Clonar e abrir o projeto
 
-1. No GitHub, abra o fork do grupo, clique em **Code**, escolha **HTTPS** e copie a URL. No terminal, substitua a URL no comando abaixo:
+1. No GitHub, abra o repositório da turma, clique em **Code**, escolha **HTTPS** e copie a URL. No terminal, use a URL abaixo:
 
    ```sh
-   git clone https://github.com/SEU-USUARIO/poliroid-aluno-2026.git
+   git clone https://github.com/gabrielcnegre/poliroid-aluno-2026.git
    cd poliroid-aluno-2026
    code .
    ```
