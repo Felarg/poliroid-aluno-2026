@@ -4,7 +4,12 @@
 import { useRouter } from "next/navigation";
 import { useRef, useState, type FormEvent } from "react";
 import { MAX_IMAGE_BYTES } from "./contracts";
-import type { PublicationSubmission } from "./client-api";
+import {
+  finalizePublication,
+  requestUpload,
+  uploadImage,
+  type PublicationSubmission,
+} from "./client-api";
 import { ImagePicker } from "./image-picker";
 import { CaptionField } from "./caption-field";
 
@@ -58,9 +63,43 @@ export function PublishForm({ onPendingChange }: PublishFormProps) {
     onPendingChange(true);
     setError("");
     try {
-      // TODO: coordenar autorização, upload, finalização e recuperação.
+      const captionValue = caption.trim();
+      const submission = pendingPublication;
+
+      if (submission) {
+        const result = await finalizePublication(submission);
+        if (result.success) {
+          showPublicationSuccess();
+        } else if (result.restartUpload) {
+          setPendingPublication(null);
+          setError(result.message);
+        } else {
+          setError(result.message);
+        }
+        return;
+      }
+
+      const authorization = await requestUpload(file);
+      await uploadImage(file, authorization);
+      const newSubmission: PublicationSubmission = {
+        uploadId: authorization.uploadId,
+        caption: captionValue,
+      };
+      // Guarda o uploadId antes da confirmação: uma resposta perdida pode
+      // acontecer depois de o servidor já ter criado o post.
+      setPendingPublication(newSubmission);
+      const result = await finalizePublication(newSubmission);
+
+      if (result.success) {
+        showPublicationSuccess();
+      } else if (result.restartUpload) {
+        setPendingPublication(null);
+        setError(result.message);
+      } else {
+        setError(result.message);
+      }
     } catch {
-      // TODO: mostrar uma mensagem e preservar a tentativa quando for seguro repetir.
+      setError("Não foi possível concluir a publicação. Tente novamente.");
     } finally {
       submitting.current = false;
       setPending(false);
