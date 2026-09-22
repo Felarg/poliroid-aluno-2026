@@ -27,7 +27,31 @@ export function FeedPostList({
     if (!nextCursor || pending) {
       return;
     }
-    // TODO: carregar a continuação do feed e atualizar a interface.
+    const cursor = nextCursor;
+    const currentRequest = requestId.current + 1;
+    requestId.current = currentRequest;
+    setPending(true);
+    setError("");
+    try {
+      const page = await getPostsPage("feed", cursor);
+      if (currentRequest !== requestId.current) {
+        return;
+      }
+      setPosts((current) => [...current, ...page.items]);
+      setNextCursor(page.nextCursor);
+    } catch (loadError) {
+      if (currentRequest === requestId.current) {
+        setError(
+          loadError instanceof Error
+            ? loadError.message
+            : "Não foi possível carregar mais publicações.",
+        );
+      }
+    } finally {
+      if (currentRequest === requestId.current) {
+        setPending(false);
+      }
+    }
   }
 
   function replacePost(updated: PostDTO) {
