@@ -1,0 +1,8 @@
+node_modules
+.next
+.scaffold
+package-lock.json
+next-env.d.ts
+*.tsbuildinfo
+.agents
+.codex

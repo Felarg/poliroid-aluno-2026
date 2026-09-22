@@ -1,0 +1,17 @@
+# Dependências e arquivos gerados.
+/node_modules/
+/.next/
+/out/
+/build/
+*.tsbuildinfo
+next-env.d.ts
+npm-debug.log*
+
+# Configuração local e ferramentas do ambiente.
+.env*
+!.env.example
+.agents/
+.codex/
+.scaffold/
+.DS_Store
+*.pem

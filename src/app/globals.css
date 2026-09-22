@@ -1,0 +1,19 @@
+/* Estilos globais: rolagem sem deslocar o conteúdo e isolamento do modal. */
+@import "tailwindcss";
+
+/* A rolagem continua disponível; a barra não disputa largura com as fotos. */
+html,
+body,
+dialog {
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+dialog::-webkit-scrollbar {
+  display: none;
+}
+
+html:has(dialog[open]) {
+  overflow: hidden;
+}
