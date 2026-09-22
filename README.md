@@ -6,17 +6,15 @@ Este repositório contém exercícios de React para uma rede de fotos. O ambient
 
 Você precisa de uma conta no [GitHub](https://github.com/signup). O caminho recomendado é o GitHub Codespaces: ele abre o projeto no navegador e já prepara VS Code, Node, Docker, banco de dados e extensões. Não é preciso instalar nada no computador.
 
-Cada grupo deve trabalhar na sua própria cópia do repositório para não alterar diretamente a `main` nem a branch de integração `resolucao/main`:
+Cada grupo trabalha diretamente no repositório da turma, com permissão de escrita, mas nunca altera `main` nem `resolucao/main` diretamente. O grupo cria sua própria branch e abre um pull request para a branch de integração.
 
 1. Entre na sua conta do GitHub e abra [gabrielcnegre/poliroid-aluno-2026](https://github.com/gabrielcnegre/poliroid-aluno-2026).
-2. Clique em **Fork**, no canto superior direito, e depois em **Create fork**. A cópia ficará na conta de quem criou o fork; compartilhe-a com o restante do grupo se necessário.
-3. Nos passos abaixo, use sempre o fork do grupo, e não o repositório original.
-
-Se o professor conceder permissão de escrita diretamente no repositório da turma, o fork não é necessário. Nesse caso, crie a branch no repositório original.
+2. Confirme com o professor que sua conta recebeu acesso de escrita ao repositório.
+3. Use esse mesmo repositório nos passos abaixo; não crie fork.
 
 ## Caminho recomendado: GitHub Codespaces
 
-1. Abra o fork do grupo no GitHub.
+1. Abra o repositório da turma no GitHub.
 2. Clique no botão verde **Code**.
 3. Abra a aba **Codespaces** e clique em **Create codespace on resolucao/main**. Essa é a base que reúne as resoluções dos exercícios.
 4. Espere a preparação terminar. O GitHub abrirá uma versão do VS Code no navegador. Na primeira vez, isso pode levar alguns minutos.
