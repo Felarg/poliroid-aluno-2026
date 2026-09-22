@@ -29,7 +29,35 @@ export function GalleryPostList({
     if (!nextCursor || pending) {
       return;
     }
-    // TODO: buscar a próxima página, acrescentar seus posts e tratar falhas.
+
+    const currentRequest = ++requestId.current;
+    setPending(true);
+    setError("");
+
+    try {
+      const page: Page<PostDTO> = await getPostsPage(
+        "user",
+        nextCursor,
+        userId,
+      );
+      if (currentRequest !== requestId.current) {
+        return;
+      }
+      setPosts((current) => [...current, ...page.items]);
+      setNextCursor(page.nextCursor);
+    } catch (loadError) {
+      if (currentRequest === requestId.current) {
+        setError(
+          loadError instanceof Error
+            ? loadError.message
+            : "Não foi possível carregar mais publicações.",
+        );
+      }
+    } finally {
+      if (currentRequest === requestId.current) {
+        setPending(false);
+      }
+    }
   }
 
   function replacePost(updated: PostDTO) {
