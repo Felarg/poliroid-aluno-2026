@@ -59,8 +59,35 @@ export function PublishForm({ onPendingChange }: PublishFormProps) {
     setError("");
     try {
       // TODO: coordenar autorização, upload, finalização e recuperação.
+      
+      let pending = pendingPublication;
+      
+      if(!pending){
+        const uploadAutorization =  await requestUpload(file)
+        await uploadImage(file, uploadAutorization)
+        const publicationSubmission = {
+          uploadId: uploadAutorization.uploadId,
+          caption: caption ? caption : ""
+        }
+        setPendingPublication(publicationSubmission)
+      }
+      
+      const publicationResult = await finalizePublication(publicationSubmission)
+
+      if(publicationResult.sucess){
+        showPublicationSuccess();
+        return
+      }
+
+      setError(publicationResult.message)
+
+      if (publicationResult.restartUpload) {
+        setPendingPublication(null)
+      }
     } catch {
       // TODO: mostrar uma mensagem e preservar a tentativa quando for seguro repetir.
+      const friendly = error instanceof Error && error.constructor === Error
+      setError(friendly ? error.message : "Não foi possível concluir")
     } finally {
       submitting.current = false;
       setPending(false);
