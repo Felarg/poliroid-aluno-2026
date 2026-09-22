@@ -51,7 +51,32 @@ export function SearchForm() {
   }
 
   function changeTerm(value: string) {
-    // TODO: atualizar a tela, validar o termo e agendar a busca.
+    requestId.current += 1;
+    const currentRequest = requestId.current;
+
+    if (timer.current) {
+      clearTimeout(timer.current);
+    }
+
+    setTerm(value);
+    setResult(null);
+    setPending(false);
+    setError("");
+
+    const normalized = value.trim();
+    const length = Array.from(normalized).length;
+    if (length > 50) {
+      setError("Digite no máximo 50 caracteres.");
+      return;
+    }
+    if (length < 2) {
+      return;
+    }
+
+    timer.current = scheduleSearch(() => {
+      setPending(true);
+      void fetchResults(normalized, currentRequest);
+    });
   }
 
   return (
