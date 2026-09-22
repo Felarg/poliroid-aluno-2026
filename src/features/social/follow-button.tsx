@@ -13,13 +13,32 @@ interface FollowButtonProps {
 /** Mantém o último estado confirmado; uma falha permite repetir a mesma operação. */
 export function FollowButton({ userId, initialFollowing }: FollowButtonProps) {
   const router = useRouter();
-  // TODO: guardar relação confirmada, pendência e mensagem de erro.
+  const [following, setFollowing] = useState(initialFollowing);
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState("");
 
   async function changeRelationship() {
-    // TODO: enviar o estado desejado e atualizar a página após o sucesso.
+    if (pending) {
+      return;
+    }
+    setPending(true);
+    setError("");
+    try {
+      const result = await changeFollow(userId, !following);
+      setFollowing(result.followingByViewer);
+      router.refresh();
+    } catch (changeError) {
+      setError(
+        changeError instanceof Error
+          ? changeError.message
+          : "Não foi possível atualizar o follow.",
+      );
+    } finally {
+      setPending(false);
+    }
   }
 
-  // TODO: escolher o rótulo do botão.
+  const label = following ? "Deixar de seguir" : "Seguir";
 
   return (
     <div className="space-y-2">
